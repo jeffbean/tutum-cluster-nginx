@@ -119,6 +119,14 @@ class NginxProxy(object):
                             logger.info('Appending cn: [{}] domain: [{}] addr: [{}]'.format(container_name, domain_name,
                                                                                address_info_string))
                         config_context['backend'][domain_name].append(address_info_string)
+        else:
+            for container_name, addr_port in backend_routes_dict.items():
+                address_info_string = '{addr}:{port}'.format(**addr_port)
+                if address_info_string not in config_context['backend'][container_name]:
+                    if DEBUG:
+                        logger.info('Appending cn: [{}] addr: [{}]'.format(container_name,
+                                                                           address_info_string))
+                    config_context['backend'][container_name].append(address_info_string)
 
         if DEBUG:
             logger.info('context dict: {}'.format(config_context))
@@ -204,7 +212,8 @@ if __name__ == "__main__":
 
             # {u'NGINX_BF17913F_2': {'proto': u'tcp', 'port': u'8001', 'addr': u'172.17.0.30'},
             # u'NGINX_BF17913F_1': {'proto': u'tcp', 'port': u'8001', 'addr': u'172.17.0.27'}}
-            logger.info('Backend routes dict: {}'.format(pformat(backend_routes)))
+            if DEBUG:
+                logger.info('Backend routes dict: {}'.format(pformat(backend_routes)))
 
             # Update backend routes
             nginx.update_virtual_hosts_from_environment()
