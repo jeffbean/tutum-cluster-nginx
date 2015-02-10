@@ -20,11 +20,6 @@ server {
     server_name {{ host }};
     listen 80;
 
-    location /static/ {
-        autoindex on;
-        alias /code/cstatic/;
-    }
-
     # Proxying the connections connections
     location / {
         proxy_pass         http://{{ host }};
