@@ -121,6 +121,7 @@ class NginxProxy(object):
                         config_context['backend'][domain_name].append(address_info_string)
         else:
             for container_name, addr_port in backend_routes_dict.items():
+                container_name = container_name.rsplit('_', 1)[0]
                 if container_name not in config_context['backend']:
                     config_context['backend'][container_name] = []
                 address_info_string = '{addr}:{port}'.format(**addr_port)
