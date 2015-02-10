@@ -1,19 +1,11 @@
 weba:
   image: tutum/hello-world
-  environment:
-    - VIRTUAL_HOST=webapp.local
 webb:
   image: tutum/hello-world
-  environment:
-    - VIRTUAL_HOST=webapp.local
 webc:
   image: tutum/hello-world
-  environment:
-    - VIRTUAL_HOST=webapp.local
 webaa:
   image: tutum/hello-world
-  environment:
-    - VIRTUAL_HOST=webapp2.local
 
 nginx:
   build: .
@@ -23,4 +15,7 @@ nginx:
     - "webb:webb"
     - "webc:webc"
   ports:
-   - "80:80"
+    - "80:80"
+  environment:
+    - DEBUG=True
+
