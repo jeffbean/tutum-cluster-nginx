@@ -221,9 +221,12 @@ if __name__ == "__main__":
             # Update backend routes
             nginx.update_virtual_hosts_from_environment()
             config_output = nginx.create_configuration(backend_routes)
+
             if not nginx.virtual_hosts and not backend_routes:
                 logger.info('No hosts found. don\'t mess with the config for now.')
+                time.sleep(POLLING_PERIOD)
                 continue
+
             if old_text != config_output:
                 logger.debug(u"Proxy configuration has been changed:\n{0:s}".format(config_output))
                 nginx.save_config_file(config_output)
